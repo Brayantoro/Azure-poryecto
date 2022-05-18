@@ -31,7 +31,7 @@ public class Controlador {
 
     @GetMapping("/msg")
     public String mostrar(){
-        return  "funciona porfavor";
+        return  "funciona porfavor llossa";
     }
 
 
