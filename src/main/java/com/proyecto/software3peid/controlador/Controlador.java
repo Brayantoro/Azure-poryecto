@@ -16,22 +16,32 @@ public class Controlador {
     @Autowired
     UsuarioRepo usuarioRepo;
 
-   @PostMapping("/usuario")
-    public Usuario addUsuario(@RequestBody Usuario usuario){
+    @PostMapping("/usuario")
+    public Usuario addUsuario(@RequestBody Usuario usuario) {
 
-       return usuarioRepo.save(usuario);
+        return usuarioRepo.save(usuario);
     }
 
     @GetMapping("/usuarios")
-    public List<Usuario> getUsuario(){
-         return usuarioRepo.findAll();
+    public List<Usuario> getUsuario() {
+        return usuarioRepo.findAll();
     }
 
 
-
     @GetMapping("/msg")
-    public String mostrar(){
-        return  "funciona porfavor llossa";
+    public String mostrar() {
+        return "funciona porfavor llossa";
+    }
+
+
+    @GetMapping("/usuarioList")
+    public Usuario obtnertUsuario() {
+        Usuario usuario = new Usuario();
+        usuario.setCodigo(1);
+        usuario.setNombre("toro");
+        usuario.setEmail("toro@email.com");
+        usuario.setPassword("124");
+        return usuario;
     }
 
 
