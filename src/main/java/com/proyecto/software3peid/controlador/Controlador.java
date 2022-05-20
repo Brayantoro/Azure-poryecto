@@ -44,14 +44,11 @@ public class Controlador {
         usuario.setEmail("toro@email.com");
         usuario.setPassword("124");
 
-
         UsuarioDto usuario1 = new UsuarioDto();
         usuario1.setCodigo(1);
         usuario1.setNombre("fabian");
         usuario1.setEmail("fabian@email.com");
         usuario1.setPassword("2345");
-
-
 
         UsuarioDto usuario2 = new UsuarioDto();
         usuario2.setCodigo(1);
@@ -59,14 +56,12 @@ public class Controlador {
         usuario2.setEmail("Anyela@email.com");
         usuario2.setPassword("456");
 
-
         UsuarioDto usuario3 = new UsuarioDto();
         usuario3.setCodigo(1);
         usuario3.setNombre("carlos");
         usuario3.setEmail("carlos@email.com");
         usuario3.setPassword("456");
         return usuario;
-
 
     }
 
