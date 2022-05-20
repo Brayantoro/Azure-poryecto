@@ -35,7 +35,6 @@ public class Controlador {
     }
 
 
-
     @GetMapping("/usuarioList")
     public UsuarioDto obtnertUsuario() {
         UsuarioDto usuario = new UsuarioDto();
