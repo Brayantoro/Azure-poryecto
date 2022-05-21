@@ -1,12 +1,10 @@
 package com.proyecto.software3peid.entidad;
 
 import lombok.*;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Getter
@@ -14,31 +12,34 @@ import java.util.List;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @ToString
-@Table(name = "meta")
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Meta implements Serializable {
+
     @Id
     @EqualsAndHashCode.Include
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer codigo;
 
 
     @Column(nullable = false, length = 100)
     private String nombre;
 
+    private Integer cantidad;
 
-    @Column(nullable = false, length = 5)
     private LocalDateTime año;
 
     @ManyToOne
     @ToString.Exclude
-    @JoinColumn(name = "proyecto_id")
+    @JoinColumn(nullable = false)
     private Proyecto proyecto;
+
 
     @ManyToOne
     @ToString.Exclude
-    @JoinColumn(name = "planaccion_id")
-    private PlanAccion PlanesAccion;
+    @JoinColumn(nullable = false)
+    private PlanAccion planAccion;
+
+
+
 
 
 }

@@ -1,7 +1,6 @@
 package com.proyecto.software3peid.entidad;
 
 import lombok.*;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,14 +14,11 @@ import java.util.List;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @ToString
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Table(name = "plan_accion")
 public class PlanAccion implements Serializable {
     @Id
     @EqualsAndHashCode.Include
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer codigo;
-
 
     @Column(nullable = false, length = 100)
     private String nombre;
@@ -30,6 +26,7 @@ public class PlanAccion implements Serializable {
 
     @Column(nullable = false)
     private double peso;
+
 
     @Column(nullable = false, length = 100)
     private String Actividad;
@@ -41,17 +38,17 @@ public class PlanAccion implements Serializable {
     @Column(nullable = false)
     private LocalDateTime fechaInicio;
 
+
     @Column(nullable = false)
+
     private LocalDateTime fechaFin;
 
 
-    @ManyToOne
+    @OneToMany(mappedBy = "planAccion")
     @ToString.Exclude
-    @JoinColumn(nullable = false)
-    private Meta meta;
+    private List<Meta> metas;
 
-    @ManyToMany(mappedBy = "Planaccion")
-    @ToString.Exclude
-    private List<Usuario> planAccionUsuarios;
+    @ManyToMany(mappedBy="planAcciones")
+    private List<Usuario> usuarios;
 
 }

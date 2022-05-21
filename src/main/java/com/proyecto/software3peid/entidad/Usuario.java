@@ -19,16 +19,12 @@ import java.util.List;
 public class Usuario {
 
     @Id
-    @Column(name="CODIGO")
     private Integer codigo;
 
-    @Column(name="NOMBRE")
     private String nombre;
 
-    @Column(name="EMAIL")
     private String email;
 
-    @Column(name="PASSWORD")
     private String password;
 
 
@@ -36,10 +32,10 @@ public class Usuario {
     @ToString.Exclude
     private List<EjeEstrategico> usuarioEjesEstrategicos;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @ToString.Exclude
-    @JoinColumn(nullable = false)
-    private List<PlanAccion> Planaccion;
+
+    @ManyToMany
+    private List<PlanAccion> planAcciones;
+
 
 
 

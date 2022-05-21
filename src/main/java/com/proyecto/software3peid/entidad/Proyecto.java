@@ -1,7 +1,6 @@
 package com.proyecto.software3peid.entidad;
 
 import lombok.*;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,23 +13,24 @@ import java.util.List;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @ToString
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Table(name = "proyecto")
 public class Proyecto implements Serializable {
     @Id
     @EqualsAndHashCode.Include
     private Integer codigo;
 
-    @Column(nullable = false, length = 100)
     private String nombre;
+
+    private Integer cantidad;
 
     @ManyToOne
     @ToString.Exclude
-    @JoinColumn(name = "objetivoEstrategicos")
+    @JoinColumn(nullable = false)
     private ObjetivoEstrategico objetivoEstrategico;
+
 
     @OneToMany(mappedBy = "proyecto")
     @ToString.Exclude
-    private List<Meta> proyectoMetas;
+    private List<Meta> metas;
+
+
 }

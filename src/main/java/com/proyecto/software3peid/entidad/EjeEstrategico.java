@@ -22,18 +22,16 @@ public class EjeEstrategico implements Serializable {
     @EqualsAndHashCode.Include
     private Integer codigo;
 
-    @Column(nullable = false, length = 100)
     private String nombre;
 
     @ManyToOne
     @ToString.Exclude
-    @JoinColumn(name = "usuario")
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "id_ejeEstrategico")
-    @ToString.Exclude
-    private List<ObjetivoEstrategico> EjeEstrategicoObjetivosEstrategicos;
 
+    @OneToMany(mappedBy = "ejeEstrategico")
+    @ToString.Exclude
+    private List<ObjetivoEstrategico> objetivoEstrategicos;
 
 
 }
