@@ -55,7 +55,7 @@ public class Controlador {
     }
 
 
-    @PutMapping("/usuarios/{id}")
+    @PutMapping("/modificar/{id}")
     public Usuario modificar(@RequestBody Usuario usuario,@PathVariable Integer id){
         Usuario usu=usuarioServicio.findById(id);
         usu.setCodigo(usuario.getCodigo());
@@ -65,7 +65,7 @@ public class Controlador {
         return usuarioServicio.addUsuario(usu);
     }
 
-    @DeleteMapping("/usuarios/{id}")
+    @DeleteMapping("/eliminar/{id}")
     public void eliminar(@PathVariable Integer id) {
         usuarioServicio.eliminarUsuario(id);
     }
@@ -94,7 +94,54 @@ public class Controlador {
     }
 
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<Usuario> getById(@PathVariable("id") int id){
+        if(!usuarioServicio.existsById(id))
+            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        Usuario usuario = (Usuario) usuarioServicio.findById(id);
+        return new ResponseEntity(usuario, HttpStatus.OK);
+    }
 
+    @GetMapping("/detalleNombre/{nombre}")
+    public ResponseEntity<Usuario> getByNombre(@PathVariable("nombre") String nombre){
+        if(!usuarioServicio.existsByNombre(nombre))
+            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        Usuario usuario = usuarioServicio.getByNombre(nombre).get();
+        return new ResponseEntity(usuario, HttpStatus.OK);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<?> create(@RequestBody UsuarioDto usuarioDto){
+        if(StringUtils.isNullOrEmpty(usuarioDto.getNombre()))
+            return new ResponseEntity(new Mensaje("el nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(usuarioDto.getCodigo()!=null)
+            return new ResponseEntity(new Mensaje("debe ser diferente vacio"), HttpStatus.BAD_REQUEST);
+        if(usuarioServicio.existsByNombre(usuarioDto.getNombre()))
+            return new ResponseEntity(new Mensaje("ese nombre ya existe"), HttpStatus.BAD_REQUEST);
+        Usuario usuario = new Usuario(usuarioDto.getNombre(), usuarioDto.getPassword());
+        usuarioServicio.addUsuario(usuario);
+        return new ResponseEntity(new Mensaje("Usuario creado"), HttpStatus.OK);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> update(@PathVariable("id")int id, @RequestBody UsuarioDto usuarioDto){
+        if(!usuarioServicio.existsById(id))
+            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        if(usuarioServicio.existsByNombre(usuarioDto.getNombre()) && usuarioServicio.getByNombre(usuarioDto.getNombre()).get().getCodigo() != id)
+            return new ResponseEntity(new Mensaje("ese nombre ya existe"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isNullOrEmpty(usuarioDto.getNombre()))
+            return new ResponseEntity(new Mensaje("el nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(usuarioDto.getCodigo()!=null)
+            return new ResponseEntity(new Mensaje("diferente null"), HttpStatus.BAD_REQUEST);
+
+        Usuario usuario = (Usuario) usuarioServicio.findById(id);
+        usuario.setNombre(usuarioDto.getNombre());
+        usuario.setPassword(usuarioDto.getPassword());
+        usuario.setEmail(usuarioDto.getEmail());
+
+        usuarioServicio.addUsuario(usuario);
+        return new ResponseEntity(new Mensaje("producto actualizado"), HttpStatus.OK);
+    }
 
 
 
