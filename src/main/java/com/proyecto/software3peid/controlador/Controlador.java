@@ -3,10 +3,13 @@ package com.proyecto.software3peid.controlador;
 
 import com.proyecto.software3peid.Dto.UsuarioDto;
 import com.proyecto.software3peid.entidad.EjeEstrategico;
+import com.proyecto.software3peid.entidad.ObjetivoEstrategico;
+import com.proyecto.software3peid.entidad.Proyecto;
 import com.proyecto.software3peid.entidad.Usuario;
-import com.proyecto.software3peid.repositorio.EjeEstrategicoRepo;
 import com.proyecto.software3peid.repositorio.UsuarioRepo;
 import com.proyecto.software3peid.servicios.EjeEstrategicoServicio;
+import com.proyecto.software3peid.servicios.ObjetivoEstrategicoServicio;
+import com.proyecto.software3peid.servicios.ProyectoServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +23,14 @@ public class Controlador {
     @Autowired
     UsuarioRepo usuarioRepo;
 
-
     @Autowired
     EjeEstrategicoServicio ejeEstrategicoServicio;
+
+    @Autowired
+    ObjetivoEstrategicoServicio objetivoEstrategicoServicio;
+
+    @Autowired
+    ProyectoServicio proyectoServicio;
 
     @PostMapping("/usuario")
     public Usuario addUsuario(@RequestBody Usuario usuario) {
@@ -39,6 +47,23 @@ public class Controlador {
     public List<EjeEstrategico> getEjeEstraetgico() {
       return  ejeEstrategicoServicio.listar();
     }
+
+    @GetMapping("/objetivos")
+    public List<ObjetivoEstrategico> getObjetivo() {
+        return  objetivoEstrategicoServicio.listarObjetivo();
+    }
+
+
+    @GetMapping("/proyectos")
+    public List<Proyecto> getProyectos() {
+        return proyectoServicio.listaProyectos();
+    }
+
+
+
+
+
+
 
 
 
