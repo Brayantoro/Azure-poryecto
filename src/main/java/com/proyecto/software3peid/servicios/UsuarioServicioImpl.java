@@ -29,8 +29,6 @@ public class UsuarioServicioImpl implements UsuarioServicio{
         return  usuarioRepo.findByNombre(nombre);
     }
 
-
-
     @Override
     public Usuario addUsuario(Usuario u) {
         return  usuarioRepo.save(u);
@@ -44,8 +42,8 @@ public class UsuarioServicioImpl implements UsuarioServicio{
     @Override
     public void eliminarUsuario(int codigo) {
          usuarioRepo.deleteById(codigo);
-
     }
+
 
     @Override
     public Usuario findById(Integer id) {
