@@ -19,10 +19,6 @@ public class UsuarioServicioImpl implements UsuarioServicio{
         return usuarioRepo.findAll();
     }
 
-   // @Override
-   // public Optional<Usuario> getUsuario(int id){
-       /// return  usuarioRepo.findById(id);
-    //}
 
     @Override
     public Optional<Usuario> getByNombre(String nombre){

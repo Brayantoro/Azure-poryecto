@@ -55,4 +55,47 @@ public class Controlador {
     }
 
 
+    @PutMapping("/usuarios/{id}")
+    public Usuario modificar(@RequestBody Usuario usuario,@PathVariable Integer id){
+        Usuario usu=usuarioServicio.findById(id);
+        usu.setCodigo(usuario.getCodigo());
+        usu.setNombre(usuario.getNombre());
+        usu.setEmail(usuario.getEmail());
+        usuario.setPassword(usuario.getPassword());
+        return usuarioServicio.addUsuario(usu);
+    }
+
+    @DeleteMapping("/usuarios/{id}")
+    public void eliminar(@PathVariable Integer id) {
+        usuarioServicio.eliminarUsuario(id);
+    }
+
+
+    @GetMapping("/EjeEstrategicos")
+    public List<EjeEstrategico> getEjeEstraetgico() {
+        return  ejeEstrategicoServicio.listar();
+    }
+
+    @GetMapping("/objetivos")
+    public List<ObjetivoEstrategico> getObjetivo() {
+        return  objetivoEstrategicoServicio.listarObjetivo();
+    }
+
+
+    @GetMapping("/proyectos")
+    public List<Proyecto> getProyectos() {
+        return proyectoServicio.listaProyectos();
+    }
+
+
+    @GetMapping("/msg")
+    public String mostrar() {
+        return "funciona perroooooo looooo";
+    }
+
+
+
+
+
+
 }
