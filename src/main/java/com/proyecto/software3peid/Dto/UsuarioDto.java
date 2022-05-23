@@ -14,6 +14,9 @@ public class UsuarioDto {
 
     private String password;
 
+    public UsuarioDto(String nombre, String password) {
+    }
+
 
     public Integer getCodigo() {
         return codigo;

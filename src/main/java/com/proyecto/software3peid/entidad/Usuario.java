@@ -36,7 +36,8 @@ public class Usuario {
     @ManyToMany
     private List<PlanAccion> planAcciones;
 
-
+    public Usuario(String nombre, String password) {
+    }
 
 
     public Integer getCodigo() {

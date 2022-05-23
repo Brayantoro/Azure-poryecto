@@ -1,6 +1,8 @@
 package com.proyecto.software3peid.controlador;
 
 
+import com.mysql.cj.util.StringUtils;
+import com.proyecto.software3peid.Dto.Mensaje;
 import com.proyecto.software3peid.Dto.UsuarioDto;
 import com.proyecto.software3peid.entidad.EjeEstrategico;
 import com.proyecto.software3peid.entidad.ObjetivoEstrategico;
@@ -10,18 +12,26 @@ import com.proyecto.software3peid.repositorio.UsuarioRepo;
 import com.proyecto.software3peid.servicios.EjeEstrategicoServicio;
 import com.proyecto.software3peid.servicios.ObjetivoEstrategicoServicio;
 import com.proyecto.software3peid.servicios.ProyectoServicio;
+import com.proyecto.software3peid.servicios.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/peid")
+@CrossOrigin
 public class Controlador {
-
 
     @Autowired
     UsuarioRepo usuarioRepo;
+
+
+
+    @Autowired
+    UsuarioServicio usuarioServicio;
 
     @Autowired
     EjeEstrategicoServicio ejeEstrategicoServicio;
@@ -60,48 +70,70 @@ public class Controlador {
     }
 
 
-
-
-
-
-
-
     @GetMapping("/msg")
     public String mostrar() {
         return "funciona perroooooo looooo";
     }
 
 
-    @GetMapping("/listaQuemada")
-    public UsuarioDto obtnertUsuario() {
-        UsuarioDto usuario = new UsuarioDto();
-        usuario.setCodigo(1);
-        usuario.setNombre("toro");
-        usuario.setEmail("toro@email.com");
-        usuario.setPassword("124");
 
-        UsuarioDto usuario1 = new UsuarioDto();
-        usuario1.setCodigo(2);
-        usuario1.setNombre("fabian");
-        usuario1.setEmail("fabian@email.com");
-        usuario1.setPassword("2345");
 
-        UsuarioDto usuario2 = new UsuarioDto();
-        usuario2.setCodigo(2);
-        usuario2.setNombre("Anyela");
-        usuario2.setEmail("Anyela@email.com");
-        usuario2.setPassword("456");
-
-        UsuarioDto usuario3 = new UsuarioDto();
-        usuario3.setCodigo(2);
-        usuario3.setNombre("carlos");
-        usuario3.setEmail("carlos@email.com");
-        usuario3.setPassword("456");
-        return usuario;
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<Usuario> getById(@PathVariable("id") int id){
+        if(!usuarioServicio.existsById(id))
+            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        Usuario usuario = (Usuario) usuarioServicio.getUsuario(id).get();
+        return new ResponseEntity(usuario, HttpStatus.OK);
     }
 
+    @GetMapping("/detailname/{nombre}")
+    public ResponseEntity<Usuario> getByNombre(@PathVariable("nombre") String nombre){
+        if(!usuarioServicio.existsByNombre(nombre))
+            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        Usuario usuario = usuarioServicio.getByNombre(nombre).get();
+        return new ResponseEntity(usuario, HttpStatus.OK);
+    }
 
+    @PostMapping("/create")
+    public ResponseEntity<?> create(@RequestBody UsuarioDto usuarioDto){
+        if(StringUtils.isNullOrEmpty(usuarioDto.getNombre()))
+            return new ResponseEntity(new Mensaje("el nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(usuarioDto.getCodigo()!=null)
+            return new ResponseEntity(new Mensaje("debe ser diferente vacio"), HttpStatus.BAD_REQUEST);
+        if(usuarioServicio.existsByNombre(usuarioDto.getNombre()))
+            return new ResponseEntity(new Mensaje("ese nombre ya existe"), HttpStatus.BAD_REQUEST);
+        Usuario usuario = new Usuario(usuarioDto.getNombre(), usuarioDto.getPassword());
+        usuarioServicio.addUsuario(usuario);
+        return new ResponseEntity(new Mensaje("Usuario creado"), HttpStatus.OK);
+    }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> update(@PathVariable("id")int id, @RequestBody UsuarioDto usuarioDto){
+        if(!usuarioServicio.existsById(id))
+            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        if(usuarioServicio.existsByNombre(usuarioDto.getNombre()) && usuarioServicio.getByNombre(usuarioDto.getNombre()).get().getCodigo() != id)
+            return new ResponseEntity(new Mensaje("ese nombre ya existe"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isNullOrEmpty(usuarioDto.getNombre()))
+            return new ResponseEntity(new Mensaje("el nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(usuarioDto.getCodigo()!=null)
+            return new ResponseEntity(new Mensaje("diferente null"), HttpStatus.BAD_REQUEST);
+
+        Usuario usuario = (Usuario) usuarioServicio.getUsuario(id).get();
+        usuario.setNombre(usuarioDto.getNombre());
+        usuario.setPassword(usuarioDto.getPassword());
+        usuario.setEmail(usuarioDto.getEmail());
+
+        usuarioServicio.addUsuario(usuario);
+        return new ResponseEntity(new Mensaje("producto actualizado"), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id")int id){
+        if(!usuarioServicio.existsById(id))
+            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        usuarioServicio.eliminarUsuario(id);
+        return new ResponseEntity(new Mensaje("producto eliminado"), HttpStatus.OK);
+    }
 
 
 
