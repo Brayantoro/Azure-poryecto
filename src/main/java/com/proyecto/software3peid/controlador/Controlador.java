@@ -70,15 +70,10 @@ public class Controlador {
        return usuarioServicio.addUsuario(usu);
     }
 
-
     @GetMapping("/usuarios/{id}")
     public void eliminar(@PathVariable Integer id) {
          usuarioServicio.eliminarUsuario(id);
     }
-
-
-
-
 
     @GetMapping("/EjeEstrategicos")
     public List<EjeEstrategico> getEjeEstraetgico() {
@@ -108,7 +103,7 @@ public class Controlador {
     public ResponseEntity<Usuario> getById(@PathVariable("id") int id){
         if(!usuarioServicio.existsById(id))
             return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
-        Usuario usuario = (Usuario) usuarioServicio.getUsuario(id).get();
+        Usuario usuario = (Usuario) usuarioServicio.findById(id);
         return new ResponseEntity(usuario, HttpStatus.OK);
     }
 
@@ -144,7 +139,7 @@ public class Controlador {
         if(usuarioDto.getCodigo()!=null)
             return new ResponseEntity(new Mensaje("diferente null"), HttpStatus.BAD_REQUEST);
 
-        Usuario usuario = (Usuario) usuarioServicio.getUsuario(id).get();
+        Usuario usuario = (Usuario) usuarioServicio.findById(id);
         usuario.setNombre(usuarioDto.getNombre());
         usuario.setPassword(usuarioDto.getPassword());
         usuario.setEmail(usuarioDto.getEmail());
