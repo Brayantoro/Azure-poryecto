@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/peid")
 public class Controlador {
 
 
@@ -35,7 +35,7 @@ public class Controlador {
     }
 
 
-    @GetMapping("/usuarioList")
+    @GetMapping("/listaQuemada")
     public UsuarioDto obtnertUsuario() {
         UsuarioDto usuario = new UsuarioDto();
         usuario.setCodigo(1);
@@ -61,8 +61,16 @@ public class Controlador {
         usuario3.setEmail("carlos@email.com");
         usuario3.setPassword("456");
         return usuario;
-
     }
+
+
+
+
+
+
+
+
+
 
 
 }
