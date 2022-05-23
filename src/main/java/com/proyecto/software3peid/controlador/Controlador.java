@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/peid")
@@ -53,6 +54,32 @@ public class Controlador {
         return usuarioRepo.findAll();
     }
 
+    @GetMapping("/usuarios/{id}")
+    public Usuario unUsuario(@PathVariable Integer id) {
+        return usuarioServicio.findById(id);
+    }
+
+
+    @PutMapping("/usuarios/{id}")
+    public Usuario modificar(@RequestBody Usuario usuario,@PathVariable Integer id){
+        Usuario usu=usuarioServicio.findById(id);
+        usu.setCodigo(usuario.getCodigo());
+        usu.setNombre(usuario.getNombre());
+        usu.setEmail(usuario.getEmail());
+        usuario.setPassword(usuario.getPassword());
+       return usuarioServicio.addUsuario(usu);
+    }
+
+
+    @GetMapping("/usuarios/{id}")
+    public void eliminar(@PathVariable Integer id) {
+         usuarioServicio.eliminarUsuario(id);
+    }
+
+
+
+
+
     @GetMapping("/EjeEstrategicos")
     public List<EjeEstrategico> getEjeEstraetgico() {
       return  ejeEstrategicoServicio.listar();
@@ -77,8 +104,7 @@ public class Controlador {
 
 
 
-
-    @GetMapping("/detail/{id}")
+    @GetMapping("/user/{id}")
     public ResponseEntity<Usuario> getById(@PathVariable("id") int id){
         if(!usuarioServicio.existsById(id))
             return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
@@ -86,7 +112,7 @@ public class Controlador {
         return new ResponseEntity(usuario, HttpStatus.OK);
     }
 
-    @GetMapping("/detailname/{nombre}")
+    @GetMapping("/detalleNombre/{nombre}")
     public ResponseEntity<Usuario> getByNombre(@PathVariable("nombre") String nombre){
         if(!usuarioServicio.existsByNombre(nombre))
             return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);

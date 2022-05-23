@@ -15,8 +15,17 @@ Optional getUsuario(int id);
 Usuario addUsuario(Usuario u);
 Usuario editarUsuario(Usuario u);
 void eliminarUsuario(int id);
+
+
+Usuario findById(Integer id);
+
+
+
+
 boolean existsById(int id);
 boolean existsByNombre(String nombre);
 Optional<Usuario> getByNombre(String nombre);
+
+
 
 }
