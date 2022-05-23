@@ -15,6 +15,6 @@ public class ObjetivoEstrategicoServicioImpl implements ObjetivoEstrategicoServi
     ObjetivoEstrategicoRepo objetivoEstrategicoRepo;
     @Override
     public List<ObjetivoEstrategico> listarObjetivo() {
-        return objetivoEstrategicoRepo.findAll();
+        return objetivoEstrategicoRepo.findAllNative();
     }
 }

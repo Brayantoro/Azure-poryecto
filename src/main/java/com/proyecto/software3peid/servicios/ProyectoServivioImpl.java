@@ -16,6 +16,6 @@ public class ProyectoServivioImpl implements ProyectoServicio{
 
     @Override
     public List<Proyecto> listaProyectos() {
-        return  proyectoRepo.findAll();
+        return  proyectoRepo.findAllNative();
     }
 }

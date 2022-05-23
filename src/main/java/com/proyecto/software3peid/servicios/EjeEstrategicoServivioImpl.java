@@ -16,6 +16,6 @@ public class EjeEstrategicoServivioImpl implements EjeEstrategicoServicio{
 
     @Override
     public List<EjeEstrategico> listar() {
-         return ejeEstrategicoRepo.findAll();
+         return ejeEstrategicoRepo.findAllNative();
     }
 }
