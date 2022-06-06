@@ -67,7 +67,7 @@ public class Controlador {
 
     @DeleteMapping("/eliminar/{id}")
     public void eliminar(@PathVariable Integer id) {
-        usuarioServicio.eliminarUsuario(id);
+        usuarioRepo.deleteById(id);
     }
 
 
