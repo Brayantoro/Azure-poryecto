@@ -5,6 +5,7 @@ import com.proyecto.software3peid.entidad.Usuario;
 import java.util.List;
 import java.util.Optional;
 
+
 public interface UsuarioServicio {
 
 List<Usuario>listar();

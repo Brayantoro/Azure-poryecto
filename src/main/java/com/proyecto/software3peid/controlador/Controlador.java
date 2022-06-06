@@ -19,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/peid")
@@ -31,14 +30,26 @@ public class Controlador {
 
 
 
-    @Autowired
-    UsuarioServicio usuarioServicio;
+
+
+   private  UsuarioServicio usuarioServicio;
+   @Autowired
+    public void UsuarioServicio (UsuarioServicio usuarioServicio) {
+        this.usuarioServicio= usuarioServicio;
+    }
+
+
+  private   EjeEstrategicoServicio ejeEstrategicoServicio;
 
     @Autowired
-    EjeEstrategicoServicio ejeEstrategicoServicio;
+    public void  EjeEstrategicoServicio ( EjeEstrategicoServicio ejeEstrategicoServicio) {
+        this.ejeEstrategicoServicio= ejeEstrategicoServicio;
+    }
+
 
     @Autowired
     ObjetivoEstrategicoServicio objetivoEstrategicoServicio;
+
 
     @Autowired
     ProyectoServicio proyectoServicio;
